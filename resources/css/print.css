@@ -1,0 +1,35 @@
+@media print {
+    .no-print {
+        display: none !important;
+    }
+
+    body {
+        background-color: white !important;
+    }
+
+    main {
+        padding-top: 1rem;
+        margin: 0;
+    }
+
+    .py-12 {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12px; /* Smaller font for printing */
+    }
+
+    th, td {
+        border: 1px solid #ccc;
+        padding: 6px;
+    }
+
+    .bg-white.shadow {
+        box-shadow: none;
+        border: 1px solid #eee;
+    }
+}
