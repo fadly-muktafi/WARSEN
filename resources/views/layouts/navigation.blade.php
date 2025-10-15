@@ -1,130 +1,85 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100 no-print">
-    <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-            <div class="flex">
-                <!-- Logo -->
-                <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
-                    </a>
-                </div>
-
-                <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-
-                    @if (Auth::user()->role == 'admin')
-                        <x-nav-link :href="route('admin.menus.index')" :active="request()->routeIs('admin.menus.index')">
-                            {{ __('Menus') }}
-                        </x-nav-link>
-                        <x-nav-link :href="route('admin.tables.index')" :active="request()->routeIs('admin.tables.index')">
-                            {{ __('Tables') }}
-                        </x-nav-link>
-                        <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.index')">
-                            {{ __('Users') }}
-                        </x-nav-link>
-                    @elseif (Auth::user()->role == 'waiter')
-                        <x-nav-link :href="route('waiter.orders.index')" :active="request()->routeIs('waiter.orders.index')">
-                            {{ __('Orders') }}
-                        </x-nav-link>
-                        <x-nav-link :href="route('waiter.reports.index')" :active="request()->routeIs('waiter.reports.index')">
-                            {{ __('Reports') }}
-                        </x-nav-link>
-                    @elseif (Auth::user()->role == 'kasir')
-                        <x-nav-link :href="route('kasir.transactions.index')" :active="request()->routeIs('kasir.transactions.index')">
-                            {{ __('Transactions') }}
-                        </x-nav-link>
-                        <x-nav-link :href="route('kasir.reports.index')" :active="request()->routeIs('kasir.reports.index')">
-                            {{ __('Reports') }}
-                        </x-nav-link>
-                    @elseif (Auth::user()->role == 'owner')
-                        <x-nav-link :href="route('owner.reports.index')" :active="request()->routeIs('owner.reports.index')">
-                            {{ __('Reports') }}
-                        </x-nav-link>
-                    @endif
-                </div>
-            </div>
-
-            <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
-                <x-dropdown align="right" width="48">
-                    <x-slot name="trigger">
-                        <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                            <div>{{ Auth::user()->name }}</div>
-
-                            <div class="ms-1">
-                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                        </button>
-                    </x-slot>
-
-                    <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
-                        </x-dropdown-link>
-
-                        <!-- Authentication -->
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-
-                            <x-dropdown-link :href="route('logout')"
-                                    onclick="event.preventDefault();
-                                                this.closest('form').submit();">
-                                {{ __('Log Out') }}
-                            </x-dropdown-link>
-                        </form>
-                    </x-slot>
-                </x-dropdown>
-            </div>
-
-            <!-- Hamburger -->
-            <div class="-me-2 flex items-center sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
-                    <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
-        </div>
+<!-- resources/views/layouts/navigation.blade.php -->
+<div class="w-64 h-screen bg-secondary-900 text-secondary-200 flex flex-col no-print sticky top-0">
+    <!-- Logo -->
+    <div class="flex items-center justify-center h-20 border-b border-secondary-800">
+        <a href="{{ route('dashboard') }}">
+            <x-application-logo class="block h-10 w-auto fill-current text-light" />
+        </a>
     </div>
 
-    <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
-        </div>
+    <!-- Navigation Links -->
+    <nav class="flex-1 px-4 py-6 space-y-2">
+        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+            <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h7.5" /></svg>
+            {{ __('Dashboard') }}
+        </x-nav-link>
 
-        <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-1 border-t border-gray-200">
-            <div class="px-4">
-                <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
-            </div>
+        @if (Auth::user()->role == 'admin')
+            <x-nav-link :href="route('admin.menus.index')" :active="request()->routeIs('admin.menus.index')">
+                <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" /></svg>
+                {{ __('Menus') }}
+            </x-nav-link>
+            <x-nav-link :href="route('admin.tables.index')" :active="request()->routeIs('admin.tables.index')">
+                <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" /></svg>
+                {{ __('Tables') }}
+            </x-nav-link>
+            <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.index')">
+                <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-4.663M12 12a3 3 0 100-6 3 3 0 000 6z" /></svg>
+                {{ __('Users') }}
+            </x-nav-link>
+        @elseif (Auth::user()->role == 'waiter')
+            <x-nav-link :href="route('waiter.orders.index')" :active="request()->routeIs('waiter.orders.index')">
+                <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c.51 0 .962-.343 1.087-.835l1.823-6.841a1.125 1.125 0 00-.84-1.332H8.324a1.125 1.125 0 00-.84 1.332l1.823 6.841zM12 18a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm-4.5-4.5V5.625" /></svg>
+                {{ __('Orders') }}
+            </x-nav-link>
+            <x-nav-link :href="route('waiter.reports.index')" :active="request()->routeIs('waiter.reports.index')">
+                <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 1.5m1-1.5l1 1.5m0 0l1 1.5m-2-1.5l-1-1.5m-6.375 5.25h14.25" /></svg>
+                {{ __('Reports') }}
+            </x-nav-link>
+        @elseif (Auth::user()->role == 'kasir')
+            <x-nav-link :href="route('kasir.transactions.index')" :active="request()->routeIs('kasir.transactions.index')">
+                <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h6m3-3.75l3 3m0 0l3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V5.25a2.25 2.25 0 00-2.25-2.25H18a2.25 2.25 0 00-2.25 2.25v.75M7.5 14.25h.008v.008H7.5v-.008zm0 2.25h.008v.008H7.5v-.008zm.375 0h.008v.008h-.008v-.008zm.375-2.25h.008v.008h-.008v-.008z" /></svg>
+                {{ __('Transactions') }}
+            </x-nav-link>
+            <x-nav-link :href="route('kasir.reports.index')" :active="request()->routeIs('kasir.reports.index')">
+                <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 1.5m1-1.5l1 1.5m0 0l1 1.5m-2-1.5l-1-1.5m-6.375 5.25h14.25" /></svg>
+                {{ __('Reports') }}
+            </x-nav-link>
+        @elseif (Auth::user()->role == 'owner')
+            <x-nav-link :href="route('owner.reports.index')" :active="request()->routeIs('owner.reports.index')">
+                <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 1.5m1-1.5l1 1.5m0 0l1 1.5m-2-1.5l-1-1.5m-6.375 5.25h14.25" /></svg>
+                {{ __('Reports') }}
+            </x-nav-link>
+        @endif
+    </nav>
 
-            <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Profile') }}
-                </x-responsive-nav-link>
+    <!-- User Menu -->
+    <div class="px-4 pb-4">
+        <x-dropdown align="bottom" width="full">
+            <x-slot name="trigger">
+                <button class="w-full flex items-center p-3 rounded-lg text-left text-sm font-medium text-secondary-200 hover:bg-secondary-800 focus:outline-none transition ease-in-out duration-150">
+                    <svg class="w-6 h-6 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                    <div class="flex-1">{{ Auth::user()->name }}</div>
+                    <svg class="fill-current h-4 w-4 ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+                </button>
+            </x-slot>
 
+            <x-slot name="content">
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-
-                    <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
-                                        this.closest('form').submit();">
+                    <x-dropdown-link 
+                        :href="route('logout')" 
+                        onclick="event.preventDefault(); this.closest('form').submit();"
+                        class="text-danger-500 hover:bg-danger-500 hover:text-white focus:bg-danger-500 focus:text-white border-b border-secondary-700">
                         {{ __('Log Out') }}
-                    </x-responsive-nav-link>
+                    </x-dropdown-link>
                 </form>
-            </div>
-        </div>
+                
+                <x-dropdown-link :href="route('profile.edit')">
+                    {{ __('Profile') }}
+                </x-dropdown-link>
+            </x-slot>
+        </x-dropdown>
     </div>
-</nav>
+</div>

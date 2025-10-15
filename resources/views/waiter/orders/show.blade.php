@@ -10,7 +10,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <div class="mb-4">
-                        <a href="{{ route('waiter.orders.index') }}" class="text-blue-500 hover:text-blue-700">&larr; Back to Active Orders</a>
+                        <a href="{{ route('waiter.orders.index') }}" class="text-soft-green-500 hover:text-soft-green-700">&larr; Back to Active Orders</a>
                     </div>
 
                     <!-- Order Details -->

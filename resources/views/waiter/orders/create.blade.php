@@ -38,7 +38,7 @@
                         </div>
 
                         <div class="mt-6">
-                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            <button type="submit" class="bg-soft-green-500 hover:bg-soft-green-700 text-white font-bold py-2 px-4 rounded">
                                 Place Order
                             </button>
                         </div>

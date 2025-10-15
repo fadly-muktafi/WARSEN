@@ -7,33 +7,35 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="m-2 p-2 bg-white rounded-lg shadow-md">
-                <div class="space-y-8 divide-y divide-gray-200 w-1/2 mt-10">
+            <div class="bg-white overflow-hidden shadow-lg sm:rounded-lg">
+                <div class="p-8 bg-white border-b border-gray-200">
                     <form method="POST" action="{{ route('admin.tables.store') }}">
                         @csrf
-                        <div class="sm:col-span-6">
-                            <label for="nomor_meja" class="block text-sm font-medium text-gray-700"> Table Number </label>
-                            <div class="mt-1">
-                                <input type="text" id="nomor_meja" name="nomor_meja" class="block w-full transition duration-150 ease-in-out appearance-none bg-white border border-gray-400 rounded-md py-2 px-3 text-base leading-normal sm:text-sm sm:leading-5 @error('nomor_meja') border-red-500 @enderror" />
+                        <div class="space-y-6">
+                            <div>
+                                <label for="nomor_meja" class="block text-sm font-medium text-gray-700"> Table Number </label>
+                                <div class="mt-1">
+                                    <input type="text" id="nomor_meja" name="nomor_meja" class="block w-full transition duration-150 ease-in-out appearance-none bg-white border border-gray-300 rounded-md py-2 px-3 text-base leading-normal sm:text-sm sm:leading-5 @error('nomor_meja') border-red-500 @enderror" />
+                                </div>
+                                @error('nomor_meja')
+                                    <div class="text-sm text-red-500 mt-1">{{ $message }}</div>
+                                @enderror
                             </div>
-                            @error('nomor_meja')
-                                <div class="text-sm text-red-500">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="sm:col-span-6 pt-5">
-                            <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
-                            <div class="mt-1">
-                                <select id="status" name="status" class="form-multiselect block w-full mt-1 rounded-md shadow-sm @error('status') border-red-500 @enderror">
-                                    <option value="available">Available</option>
-                                    <option value="occupied">Occupied</option>
-                                </select>
+                            <div>
+                                <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
+                                <div class="mt-1">
+                                    <select id="status" name="status" class="block w-full mt-1 rounded-md shadow-sm border-gray-300 focus:border-soft-green-500 focus:ring-soft-green-500 @error('status') border-red-500 @enderror">
+                                        <option value="available">Available</option>
+                                        <option value="occupied">Occupied</option>
+                                    </select>
+                                </div>
+                                 @error('status')
+                                    <div class="text-sm text-red-500 mt-1">{{ $message }}</div>
+                                @enderror
                             </div>
-                             @error('status')
-                                <div class="text-sm text-red-500">{{ $message }}</div>
-                            @enderror
                         </div>
-                        <div class="mt-6 p-4">
-                            <button type="submit" class="px-4 py-2 bg-indigo-500 hover:bg-indigo-700 rounded-lg text-white">Store</button>
+                        <div class="mt-8 flex justify-end">
+                            <button type="submit" class="px-4 py-2 bg-soft-green-600 hover:bg-soft-green-700 rounded-lg text-white font-semibold text-xs tracking-widest">Store</button>
                         </div>
                     </form>
                 </div>

@@ -7,53 +7,55 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="m-2 p-2 bg-white rounded-lg shadow-md">
-                <div class="space-y-8 divide-y divide-gray-200 w-1/2 mt-10">
+            <div class="bg-white overflow-hidden shadow-lg sm:rounded-lg">
+                <div class="p-8 bg-white border-b border-gray-200">
                     <form method="POST" action="{{ route('admin.users.update', $user->id) }}">
                         @csrf
                         @method('PUT')
-                        <div class="sm:col-span-6">
-                            <label for="name" class="block text-sm font-medium text-gray-700"> Name </label>
-                            <div class="mt-1">
-                                <input type="text" id="name" name="name" value="{{ $user->name }}" class="block w-full transition duration-150 ease-in-out appearance-none bg-white border border-gray-400 rounded-md py-2 px-3 text-base leading-normal sm:text-sm sm:leading-5 @error('name') border-red-500 @enderror" />
+                        <div class="space-y-6">
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-gray-700"> Name </label>
+                                <div class="mt-1">
+                                    <input type="text" id="name" name="name" value="{{ $user->name }}" class="block w-full transition duration-150 ease-in-out appearance-none bg-white border border-gray-300 rounded-md py-2 px-3 text-base leading-normal sm:text-sm sm:leading-5 @error('name') border-red-500 @enderror" />
+                                </div>
+                                @error('name')
+                                    <div class="text-sm text-red-500 mt-1">{{ $message }}</div>
+                                @enderror
                             </div>
-                            @error('name')
-                                <div class="text-sm text-red-500">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="sm:col-span-6 pt-5">
-                            <label for="email" class="block text-sm font-medium text-gray-700"> Email </label>
-                            <div class="mt-1">
-                                <input type="email" id="email" name="email" value="{{ $user->email }}" class="block w-full transition duration-150 ease-in-out appearance-none bg-white border border-gray-400 rounded-md py-2 px-3 text-base leading-normal sm:text-sm sm:leading-5 @error('email') border-red-500 @enderror" />
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700"> Email </label>
+                                <div class="mt-1">
+                                    <input type="email" id="email" name="email" value="{{ $user->email }}" class="block w-full transition duration-150 ease-in-out appearance-none bg-white border border-gray-300 rounded-md py-2 px-3 text-base leading-normal sm:text-sm sm:leading-5 @error('email') border-red-500 @enderror" />
+                                </div>
+                                @error('email')
+                                    <div class="text-sm text-red-500 mt-1">{{ $message }}</div>
+                                @enderror
                             </div>
-                            @error('email')
-                                <div class="text-sm text-red-500">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="sm:col-span-6 pt-5">
-                            <label for="password" class="block text-sm font-medium text-gray-700"> Password (leave blank to keep current) </label>
-                            <div class="mt-1">
-                                <input type="password" id="password" name="password" class="block w-full transition duration-150 ease-in-out appearance-none bg-white border border-gray-400 rounded-md py-2 px-3 text-base leading-normal sm:text-sm sm:leading-5 @error('password') border-red-500 @enderror" />
+                            <div>
+                                <label for="password" class="block text-sm font-medium text-gray-700"> Password (leave blank to keep current) </label>
+                                <div class="mt-1">
+                                    <input type="password" id="password" name="password" class="block w-full transition duration-150 ease-in-out appearance-none bg-white border border-gray-300 rounded-md py-2 px-3 text-base leading-normal sm:text-sm sm:leading-5 @error('password') border-red-500 @enderror" />
+                                </div>
+                                @error('password')
+                                    <div class="text-sm text-red-500 mt-1">{{ $message }}</div>
+                                @enderror
                             </div>
-                            @error('password')
-                                <div class="text-sm text-red-500">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        <div class="sm:col-span-6 pt-5">
-                            <label for="role" class="block text-sm font-medium text-gray-700">Role</label>
-                            <div class="mt-1">
-                                <select id="role" name="role" class="form-multiselect block w-full mt-1 rounded-md shadow-sm @error('role') border-red-500 @enderror">
-                                    @foreach (['admin', 'waiter', 'kasir', 'owner'] as $role)
-                                        <option value="{{ $role }}" @if ($user->role == $role) selected @endif>{{ ucfirst($role) }}</option>
-                                    @endforeach
-                                </select>
+                            <div>
+                                <label for="role" class="block text-sm font-medium text-gray-700">Role</label>
+                                <div class="mt-1">
+                                    <select id="role" name="role" class="block w-full mt-1 rounded-md shadow-sm border-gray-300 focus:border-soft-green-500 focus:ring-soft-green-500 @error('role') border-red-500 @enderror">
+                                        @foreach (['admin', 'waiter', 'kasir', 'owner'] as $role)
+                                            <option value="{{ $role }}" @if ($user->role == $role) selected @endif>{{ ucfirst($role) }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                @error('role')
+                                    <div class="text-sm text-red-500 mt-1">{{ $message }}</div>
+                                @enderror
                             </div>
-                            @error('role')
-                                <div class="text-sm text-red-500">{{ $message }}</div>
-                            @enderror
                         </div>
-                        <div class="mt-6 p-4">
-                            <button type="submit" class="px-4 py-2 bg-indigo-500 hover:bg-indigo-700 rounded-lg text-white">Update</button>
+                        <div class="mt-8 flex justify-end">
+                            <button type="submit" class="px-4 py-2 bg-soft-green-600 hover:bg-soft-green-700 rounded-lg text-white font-semibold text-xs tracking-widest">Update</button>
                         </div>
                     </form>
                 </div>
