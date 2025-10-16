@@ -14,15 +14,19 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans text-secondary-900 antialiased">
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-secondary-100">
+    <body class="font-sans text-emerald-900 antialiased bg-gradient-to-br from-emerald-50 to-cyan-50">
+        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0">
             <div class="mb-6">
-                <a href="/">
-                    <x-application-logo class="w-24 h-24 fill-current text-secondary-500" />
+                <a href="/" class="flex justify-center">
+                    <x-application-logo class="w-24 h-24 fill-current text-emerald-600" />
                 </a>
+                <div class="text-center mt-2">
+                    <h1 class="text-2xl font-bold text-emerald-800">LaundryPro</h1>
+                    <p class="text-emerald-600">Professional Laundry Service</p>
+                </div>
             </div>
 
-            <div class="w-full sm:max-w-md p-8 bg-light shadow-lg overflow-hidden sm:rounded-2xl border border-secondary-200">
+            <div class="w-full sm:max-w-md p-8 bg-white/90 backdrop-blur-sm shadow-xl overflow-hidden sm:rounded-2xl border border-emerald-100 transition-all duration-300">
                 {{ $slot }}
             </div>
         </div>
