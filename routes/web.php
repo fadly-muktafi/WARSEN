@@ -14,6 +14,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
+
 // This will be the main redirect after login
 Route::get('/dashboard', RedirectController::class)->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -24,9 +28,7 @@ Route::middleware('auth')->group(function () {
 });
 
 use App\Http\Controllers\Admin\MenuController;
-
 use App\Http\Controllers\Admin\RestaurantTableController;
-
 use App\Http\Controllers\Admin\UserController;
 
 // Admin Routes
@@ -49,6 +51,10 @@ use App\Http\Controllers\Waiter\ReportController as WaiterReportController;
 Route::middleware(['auth', 'waiter'])->prefix('waiter')->name('waiter.')->group(function () {
     Route::get('/dashboard', WaiterDashboardController::class)->name('dashboard');
     Route::get('select-table', [OrderController::class, 'select_table'])->name('orders.select_table');
+    
+    // RUTE BARU DITAMBAHKAN DI SINI
+    Route::patch('orders/{order}/update-status', [OrderController::class, 'updateStatus'])->name('orders.update_status');
+    
     Route::resource('orders', OrderController::class);
     Route::resource('reports', WaiterReportController::class);
     // Add other waiter routes here

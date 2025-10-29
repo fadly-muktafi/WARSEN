@@ -10,7 +10,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <div class="mb-4 no-print">
-                        <a href="{{ route('owner.reports.index') }}" class="text-blue-500 hover:text-blue-700">&larr; Back to Sales Reports</a>
+                        <a href="{{ route('owner.reports.index') }}" class="text-soft-green-500 hover:text-soft-green-700">&larr; Back to Sales Reports</a>
                         <button type="button" onclick="window.print()" class="ml-4 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
                             Print to PDF
                         </button>

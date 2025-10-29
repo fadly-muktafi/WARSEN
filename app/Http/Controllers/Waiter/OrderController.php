@@ -3,10 +3,6 @@
 namespace App\Http\Controllers\Waiter;
 
 use App\Http\Controllers\Controller;
-
-namespace App\Http\Controllers\Waiter;
-
-use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\Menu;
 use App\Models\Order;
@@ -19,23 +15,31 @@ class OrderController extends Controller
 {
     public function index(Request $request)
     {
+        // PERBAIKAN KECIL: Menampilkan SEMUA pesanan aktif, bukan hanya 'pending'
         $orders = Order::with(['customer', 'restaurantTable'])
             ->where('user_id', $request->user()->id)
-            ->where('status', 'pending')
+            ->whereNotIn('status', ['completed', 'paid']) // Menampilkan pending, cooking, ready, served
             ->latest()
-            ->get();
+            ->paginate(10); // Menambahkan paginasi untuk performa
+
         return view('waiter.orders.index', compact('orders'));
     }
 
     public function select_table()
     {
-        $tables = RestaurantTable::where('status', 'available')->get();
+        $tables = RestaurantTable::all(); // Menampilkan semua meja agar waiter tahu statusnya
         return view('waiter.orders.select-table', compact('tables'));
     }
 
     public function create(Request $request)
     {
         $table = RestaurantTable::findOrFail($request->table_id);
+        
+        // Mencegah pembuatan pesanan di meja yang sudah terisi
+        if ($table->status !== 'available') {
+            return redirect()->route('waiter.orders.select_table')->with('danger', 'Table is currently occupied.');
+        }
+
         $menus = Menu::all();
         return view('waiter.orders.create', compact('table', 'menus'));
     }
@@ -71,7 +75,14 @@ class OrderController extends Controller
             ]);
 
             $totalAmount = 0;
-            foreach ($request->menus as $menuId => $quantity) {
+            $menus = $request->input('menus', []);
+            
+            if (empty(array_filter($menus))) {
+                // Melemparkan exception untuk membatalkan transaksi jika tidak ada menu yang dipilih
+                throw new \Exception('Cannot create an order with no menu items.');
+            }
+
+            foreach ($menus as $menuId => $quantity) {
                 if ($quantity > 0) {
                     $menu = Menu::find($menuId);
                     $subtotal = $menu->harga * $quantity;
@@ -93,5 +104,37 @@ class OrderController extends Controller
         });
 
         return redirect()->route('waiter.orders.index')->with('success', 'Order created successfully.');
+    }
+
+    // --- METODE BARU DITAMBAHKAN DI SINI ---
+    
+    /**
+     * Update the status of a specific order.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Order  $order
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function updateStatus(Request $request, Order $order)
+    {
+        // Validasi untuk memastikan status yang dikirim adalah salah satu dari yang diizinkan
+        $request->validate([
+            'status' => 'required|in:cooking,ready,served',
+        ]);
+
+        // Logika sederhana untuk mencegah status "mundur"
+        $statusHierarchy = ['pending' => 1, 'cooking' => 2, 'ready' => 3, 'served' => 4];
+        if ($statusHierarchy[$request->status] <= $statusHierarchy[$order->status]) {
+            return back()->with('danger', 'Cannot revert order status.');
+        }
+
+        // Update status pesanan
+        $order->update([
+            'status' => $request->status,
+        ]);
+
+        // Kembali ke halaman detail dengan pesan sukses
+        return redirect()->route('waiter.orders.show', $order)
+                         ->with('success', 'Order status updated to "' . ucfirst($request->status) . '".');
     }
 }
