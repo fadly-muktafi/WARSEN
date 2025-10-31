@@ -11,7 +11,10 @@ class TransactionController extends Controller
 {
     public function index()
     {
-        $orders = Order::with('customer', 'restaurantTable')->where('status', 'pending')->latest()->paginate(10);
+        $orders = Order::with('customer', 'restaurantTable')
+            ->where('status', 'served') // Orders ready for payment processing
+            ->latest()
+            ->paginate(10);
         return view('kasir.transactions.index', compact('orders'));
     }
 

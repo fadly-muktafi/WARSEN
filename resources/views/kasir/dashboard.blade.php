@@ -88,8 +88,8 @@
                                                 <p class="text-sm text-gray-500 truncate">Rp {{ number_format($order->total_amount, 0, ',', '.') }}</p>
                                             </div>
                                             <div>
-                                                {{-- Tombol ini harus mengarah ke halaman pembuatan transaksi --}}
-                                                <a href="{{ route('kasir.transactions.create', ['order_id' => $order->id]) }}" class="inline-flex items-center shadow-sm px-3 py-1 border border-transparent text-sm leading-5 font-medium rounded-full text-white bg-green-600 hover:bg-green-700">Process</a>
+                                                {{-- Process the existing order for payment --}}
+                                                <a href="{{ route('kasir.transactions.show', $order->id) }}" class="inline-flex items-center shadow-sm px-3 py-1 border border-transparent text-sm leading-5 font-medium rounded-full text-white bg-green-600 hover:bg-green-700">Process</a>
                                             </div>
                                         </div>
                                     </li>

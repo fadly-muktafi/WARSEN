@@ -67,7 +67,7 @@ use App\Http\Controllers\Kasir\ReportController;
 Route::middleware(['auth', 'kasir'])->prefix('kasir')->name('kasir.')->group(function () {
     Route::get('/dashboard', KasirDashboardController::class)->name('dashboard');
     Route::get('transactions/{transaction}/receipt', [TransactionController::class, 'receipt'])->name('transactions.receipt');
-    Route::resource('transactions', TransactionController::class);
+    Route::resource('transactions', TransactionController::class)->except(['create', 'store', 'edit', 'destroy']);
     Route::resource('reports', ReportController::class);
     // Add other cashier routes here
 });
